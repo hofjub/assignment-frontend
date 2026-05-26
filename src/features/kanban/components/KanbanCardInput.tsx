@@ -40,14 +40,27 @@ function KanbanCardInput({onCreate}: {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{mt: 1}}>
             <Alert
+                icon={false}
                 severity="info"
+                sx={{
+                    alignItems: "flex-start",
+                    bgcolor: "#fff",
+                    border: "1px dashed rgba(25, 118, 210, 0.35)",
+                    borderRadius: 2,
+                    color: "#172033",
+                    p: 1.5,
+                    "& .MuiAlert-message": {
+                        width: "100%",
+                    },
+                }}
                 action={
                     <Button
                         color="inherit"
                         disabled={!title.trim()}
                         size="small"
+                        sx={{borderRadius: 1.5, textTransform: "none"}}
                         type="submit"
                     >
                         Create
@@ -61,7 +74,7 @@ function KanbanCardInput({onCreate}: {
                             src={image}
                             alt="Card thumbnail preview"
                             sx={{
-                                borderRadius: 1,
+                                borderRadius: 2,
                                 height: 120,
                                 objectFit: "cover",
                                 width: "100%",
@@ -73,6 +86,11 @@ function KanbanCardInput({onCreate}: {
                         size="small"
                         startIcon={<AddPhotoAlternateIcon />}
                         variant="outlined"
+                        sx={{
+                            borderRadius: 1.5,
+                            justifyContent: "flex-start",
+                            textTransform: "none",
+                        }}
                     >
                         Upload thumbnail
                         <input
@@ -89,7 +107,13 @@ function KanbanCardInput({onCreate}: {
                         onChange={(event) => setTitle(event.target.value)}
                         size="small"
                         value={title}
-                        variant="standard"
+                        variant="outlined"
+                        sx={{
+                            "& .MuiOutlinedInput-root": {
+                                borderRadius: 1.5,
+                                bgcolor: "#f8fafc",
+                            },
+                        }}
                     />
                 </Stack>
             </Alert>

@@ -10,7 +10,7 @@ export function Kanban() {
     const [isAddingColumn, setIsAddingColumn] = useState(false);
 
     return (
-        <Box sx={{ paddingBottom: 4}}>
+        <Box sx={{pb: 4}}>
             <DraggableList
                 items={columns}
                 useCustomDragHandle
@@ -25,6 +25,8 @@ export function Kanban() {
                 sx={{
                     overflowX: "auto",
                     alignItems: "flex-start",
+                    pb: 2,
+                    px: 1,
                 }}
                 footer={
                     isAddingColumn ? (
@@ -36,7 +38,23 @@ export function Kanban() {
                             }}
                         />
                     ) : (
-                        <Button onClick={() => setIsAddingColumn(true)}>
+                        <Button
+                            onClick={() => setIsAddingColumn(true)}
+                            sx={{
+                                bgcolor: "rgba(255, 255, 255, 0.74)",
+                                border: "1px dashed rgba(23, 32, 51, 0.24)",
+                                borderRadius: 2,
+                                color: "text.secondary",
+                                justifyContent: "flex-start",
+                                minHeight: 48,
+                                textTransform: "none",
+                                width: 400,
+                                "&:hover": {
+                                    bgcolor: "#fff",
+                                    borderColor: "primary.main",
+                                },
+                            }}
+                        >
                             Add Column
                         </Button>
                     )

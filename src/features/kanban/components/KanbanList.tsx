@@ -17,21 +17,49 @@ function KanbanList({column, dragHandleProps}: {
     const [isAddingCard, setIsAddingCard] = useState(false);
 
     return (
-        <Card variant="outlined" sx={{bgcolor: 'grey.200', width: 400}}>
+        <Card
+            variant="outlined"
+            sx={{
+                bgcolor: "#eef2f7",
+                borderColor: "rgba(23, 32, 51, 0.08)",
+                borderRadius: 2,
+                boxShadow: "0 18px 36px rgba(23, 32, 51, 0.08)",
+                width: 400,
+            }}
+        >
 
-            <CardContent>
+            <CardContent sx={{p: 2, "&:last-child": {pb: 2}}}>
 
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack direction="row" spacing={1} alignItems="center" sx={{mb: 2}}>
                     <Box
                         {...dragHandleProps}
-                        sx={{ cursor: "grab" }}
+                        sx={{
+                            alignItems: "center",
+                            borderRadius: 1,
+                            color: "text.secondary",
+                            cursor: "grab",
+                            display: "flex",
+                            p: 0.5,
+                            "&:hover": {
+                                bgcolor: "rgba(23, 32, 51, 0.08)",
+                            },
+                        }}
                     >
                         <DragIndicatorIcon
-                            sx={{bgcolor: 'grey.200'}}
+                            fontSize="small"
                         />
                     </Box>
 
-                    <Typography variant="h6">{column.title}</Typography>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            color: "#172033",
+                            fontWeight: 700,
+                            lineHeight: 1.2,
+                        }}
+                    >
+                        {column.title}
+                    </Typography>
                 </Stack>
 
                 <DraggableList
@@ -55,7 +83,21 @@ function KanbanList({column, dragHandleProps}: {
                 )}
 
                 {!isAddingCard && (
-                    <Button onClick={() => setIsAddingCard(true)}>
+                    <Button
+                        fullWidth
+                        onClick={() => setIsAddingCard(true)}
+                        sx={{
+                            borderRadius: 2,
+                            color: "text.secondary",
+                            justifyContent: "flex-start",
+                            mt: 1,
+                            textTransform: "none",
+                            "&:hover": {
+                                bgcolor: "rgba(23, 32, 51, 0.06)",
+                                color: "primary.main",
+                            },
+                        }}
+                    >
                         Add Card
                     </Button>
                 )}
