@@ -1,6 +1,5 @@
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import KanbanList from "./KanbanList";
-import KanbanCard from "./KanbanCard";
 import {useKanbanStore} from "../stores/useKanbanStore";
 import {DraggableList} from "../../draggable";
 
