@@ -22,12 +22,21 @@ function KanbanCardInput({onCreate}: {
 
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+        /*
+        Base64:
         const file = event.target.files?.[0];
         if (!file) return;
 
         const reader = new FileReader();
         reader.onload = () => setImage(String(reader.result));
         reader.readAsDataURL(file);
+         */
+
+        //For demo:
+        const file = event.target.files?.[0];
+        file !== undefined && setImage(URL.createObjectURL(file))
+
     };
 
     return (

@@ -5,9 +5,6 @@ import {Box, Button, Card, Dialog} from "@mui/material";
 
 function App() {
 
-    const {columns} = useKanbanStore()
-
-    const [showJson, setShowJson] = useState(false)
 
     return (
         <div style={{
@@ -22,6 +19,19 @@ function App() {
             </div>
 
 
+            <JsonView/>
+
+        </div>
+    );
+}
+
+const JsonView = () => {
+    const {columns} = useKanbanStore()
+
+    const [showJson, setShowJson] = useState(false)
+
+    return (
+        <>
             <Button onClick={() => setShowJson(prev => !prev)}>
                 {
                     showJson ? "Dismiss JSON" : "Show JSON"
@@ -30,15 +40,18 @@ function App() {
 
             {showJson && (
                 <Card style={{width: "80%", overflow: "hidden", backgroundColor: 'rgb(0,0,0,0.25)', padding: 30}}>
-                <pre>
+                <pre  style={{
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                    margin: 0,
+                }}>
 
                 <code>{JSON.stringify(columns, null, 2)}</code>
                 </pre>
                 </Card>
             )}
-
-        </div>
-    );
+        </>
+    )
 }
 
 export default App;
