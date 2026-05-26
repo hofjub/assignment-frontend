@@ -1,4 +1,4 @@
-import {Card, CardContent, Checkbox, Stack, Typography} from "@mui/material";
+import {Card, CardContent, CardMedia, Checkbox, Stack, Typography} from "@mui/material";
 import {KanbanCard as KanbanCardType} from "../types/card";
 import {useKanbanStore} from "../stores/useKanbanStore";
 
@@ -10,6 +10,15 @@ function KanbanCard({card, columnId}: {
 
     return (
         <Card>
+            {card.image && (
+                <CardMedia
+                    component="img"
+                    height="140"
+                    image={card.image}
+                    alt=""
+                    sx={{objectFit: "cover"}}
+                />
+            )}
             <CardContent>
                 <Stack spacing={2} direction="row" alignItems={"center"} >
                     <Checkbox

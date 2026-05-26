@@ -6,6 +6,7 @@ import {KanbanItem} from "./index";
 interface KanbanCard extends KanbanItem {
     finishedAt?: Date,
     description?:string,
+    image?: string,
 }
 
 type CreateKanbanCard = Omit<KanbanCard, "createdAt"|"finishedAt" | "id">

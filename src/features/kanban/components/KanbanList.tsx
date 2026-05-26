@@ -47,9 +47,8 @@ function KanbanList({column, dragHandleProps}: {
 
                 {isAddingCard && (
                     <KanbanCardInput
-                        onBlur={() => setIsAddingCard(false)}
-                        onCreate={(title) => {
-                            addCard(column.id, {title});
+                        onCreate={(title, image) => {
+                            addCard(column.id, {title, image});
                             setIsAddingCard(false);
                         }}
                     />

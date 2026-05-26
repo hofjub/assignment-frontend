@@ -1,11 +1,12 @@
-import {Alert, Box, Button, TextField} from "@mui/material";
-import React, {FocusEvent, FormEvent, useState} from "react";
+import {Alert, Box, Button, Stack, TextField} from "@mui/material";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import React, {ChangeEvent, FormEvent, useState} from "react";
 
-function KanbanCardInput({onCreate, onBlur}: {
-    onCreate: (title: string) => void,
-    onBlur: () => void
+function KanbanCardInput({onCreate}: {
+    onCreate: (title: string, image?: string) => void,
 }) {
     const [title, setTitle] = useState("");
+    const [image, setImage] = useState<string>();
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -13,18 +14,24 @@ function KanbanCardInput({onCreate, onBlur}: {
         const trimmedTitle = title.trim();
         if (!trimmedTitle) return;
 
-        onCreate(trimmedTitle);
+        onCreate(trimmedTitle, image);
         setTitle("");
+        setImage(undefined);
     };
 
-    const handleBlur = (event: FocusEvent<HTMLFormElement>) => {
-        if (event.currentTarget.contains(event.relatedTarget)) return;
 
-        onBlur();
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => setImage(String(reader.result));
+        reader.readAsDataURL(file);
     };
 
     return (
-        <Box component="form" onBlur={handleBlur} onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
             <Alert
                 severity="info"
                 action={
@@ -38,15 +45,44 @@ function KanbanCardInput({onCreate, onBlur}: {
                     </Button>
                 }
             >
-                <TextField
-                    autoFocus
-                    fullWidth
-                    label="Title"
-                    onChange={(event) => setTitle(event.target.value)}
-                    size="small"
-                    value={title}
-                    variant="standard"
-                />
+                <Stack spacing={1}>
+                    {image && (
+                        <Box
+                            component="img"
+                            src={image}
+                            alt="Card thumbnail preview"
+                            sx={{
+                                borderRadius: 1,
+                                height: 120,
+                                objectFit: "cover",
+                                width: "100%",
+                            }}
+                        />
+                    )}
+                    <Button
+                        component="label"
+                        size="small"
+                        startIcon={<AddPhotoAlternateIcon />}
+                        variant="outlined"
+                    >
+                        Upload thumbnail
+                        <input
+                            hidden
+                            accept="image/*"
+                            type="file"
+                            onChange={handleImageChange}
+                        />
+                    </Button>
+                    <TextField
+                        autoFocus
+                        fullWidth
+                        label="Title"
+                        onChange={(event) => setTitle(event.target.value)}
+                        size="small"
+                        value={title}
+                        variant="standard"
+                    />
+                </Stack>
             </Alert>
         </Box>
     );
