@@ -1,10 +1,11 @@
 import {KanbanColumn} from "./column";
-import {CreateKanbanCard} from "./card";
+import {CreateKanbanCard, EditKanbanCard} from "./card";
 
 interface KanbanStore {
     columns: KanbanColumn[],
     addColumn: (title: string) => void,
     addCard: (columnId: string, card: CreateKanbanCard) => void,
+    editCard: (columnId: string, cardId: string, card: EditKanbanCard) => void,
 
     /**
      * @param from - current index of the column

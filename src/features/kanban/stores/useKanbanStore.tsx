@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import {KanbanStore} from "../types";
 import {KanbanColumn} from "../types/column";
-import {CreateKanbanCard, KanbanCard} from "../types/card";
+import {CreateKanbanCard, EditKanbanCard, KanbanCard} from "../types/card";
 
 const mockData: KanbanColumn[] = [
     {
@@ -85,6 +85,27 @@ export const useKanbanStore = create<KanbanStore>((set, get) => ({
                 return {
                     ...c,
                     cards: [...c.cards, newCard]
+                }
+            })
+
+            return {columns: newColumns}
+        })
+    },
+    editCard: (columnId: string, cardId: string, card: EditKanbanCard) => {
+        set((state) => {
+            const newColumns = [...state.columns].map(c => {
+                if(c.id !== columnId) return c;
+
+                return {
+                    ...c,
+                    cards: c.cards.map(existingCard => {
+                        if(existingCard.id !== cardId) return existingCard;
+
+                        return {
+                            ...existingCard,
+                            ...card
+                        }
+                    })
                 }
             })
 

@@ -34,7 +34,7 @@ function KanbanList({column, dragHandleProps}: {
                     type={"CARD"}
                     items={column.cards}
                     renderItem={(c) => {
-                        return <KanbanCard card={c}/>
+                        return <KanbanCard card={c} columnId={column.id}/>
                     }}
                     direction={"vertical"}
                     onReorder={(from, to) => reorderCard(column.id, from, to)}
