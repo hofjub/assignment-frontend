@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {KanbanStore} from "../types";
 import {KanbanColumn} from "../types/column";
+import {CreateKanbanCard, KanbanCard} from "../types/card";
 
 const mockData: KanbanColumn[] = [
     {
@@ -38,6 +39,22 @@ const mockData: KanbanColumn[] = [
     },
 ];
 
+export function reorder<T>(items: T[], from: number, to: number): T[] {
+    const newItems = [...items];
+
+    const isFromIndexInvalid = from < 0 || from >= newItems.length;
+    const isToIndexInvalid = to < 0 || to >= newItems.length;
+
+    if (isFromIndexInvalid || isToIndexInvalid) {
+        return newItems;
+    }
+
+    const [item] = newItems.splice(from, 1);
+    newItems.splice(to, 0, item);
+
+    return newItems;
+}
+
 
 
 export const useKanbanStore = create<KanbanStore>((set, get) => ({
@@ -54,12 +71,43 @@ export const useKanbanStore = create<KanbanStore>((set, get) => ({
             columns: [...state.columns, newColumn],
         }));
     },
+    addCard: (columnId: string, card: CreateKanbanCard) => {
+        set((state) => {
+            const newColumns = [...state.columns].map(c => {
+                if(c.id !== columnId) return c;
+
+                const newCard :KanbanCard = {
+                    createdAt: new Date(),
+                    id: crypto.randomUUID(),
+                    ...card
+                }
+
+                return {
+                    ...c,
+                    cards: [...c.cards, newCard]
+                }
+            })
+
+            return {columns: newColumns}
+        })
+    },
     reorderColumn: (from, to) => {
         set((state) => {
-            const newColumns = [...state.columns]
+            return {
+                columns: reorder(state.columns, from, to),
+            }
+        })
+    },
+    reorderCard: (columnId, from, to) => {
+        set((state) => {
+            const newColumns = [...state.columns].map(c => {
+                if(c.id !== columnId) return c;
 
-            const [item] = newColumns.splice(from, 1)
-            newColumns.splice(to, 0, item)
+                return {
+                    ...c,
+                    cards: reorder(c.cards, from, to)
+                }
+            })
 
             return {columns: newColumns}
         })

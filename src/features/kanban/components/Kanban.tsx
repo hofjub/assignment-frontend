@@ -1,6 +1,6 @@
 import {Box, Button} from "@mui/material";
 import KanbanList from "./KanbanList";
-import KanbanItem from "./KanbanItem";
+import KanbanCard from "./KanbanCard";
 import {useKanbanStore} from "../stores/useKanbanStore";
 import {DraggableList} from "../../draggable";
 
@@ -11,17 +11,14 @@ export function Kanban() {
         <Box sx={{ paddingBottom: 4 }}>
             <DraggableList
                 items={columns}
-                renderItem={(column) => (
-                    <KanbanList>
-                        <KanbanItem />
-                        <KanbanItem />
-                        <KanbanItem />
-                        <Button>Add item {column.id}</Button>
-                    </KanbanList>
+                useCustomDragHandle
+                renderItem={(column, {dragHandleProps}) => (
+                    <KanbanList column={column} dragHandleProps={dragHandleProps} />
                 )}
                 direction="horizontal"
                 onReorder={reorderColumn}
                 droppableId="kanban-columns"
+                type={"COLUMN"}
                 margin={5}
                 sx={{
                     overflowX: "auto",

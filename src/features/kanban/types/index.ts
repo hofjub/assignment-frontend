@@ -8,7 +8,14 @@ interface KanbanStore {
      * @param from - current index of the column
      * @param to - new index of the column
      */
-    reorderColumn: (from: number, to: number) => void
+    reorderColumn: (from: number, to: number) => void,
+
+    /**
+     * @param columnId - id of the column which needs to be changed
+     * @param from - current index of the card
+     * @param to - new index of the card
+     */
+    reorderCard: (columnId: string, from: number, to: number) => void
 }
 
 

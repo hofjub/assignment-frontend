@@ -1,80 +1,106 @@
-import {Box, Stack, StackProps} from "@mui/material";
-import {DragDropContext, Draggable, Droppable, DropResult, Direction} from "react-beautiful-dnd";
 import React from "react";
+import { Box, Stack, StackProps } from "@mui/material";
+import {
+    DragDropContext,
+    Draggable,
+    Droppable,
+    DropResult,
+    Direction,
+    DraggableProvidedDragHandleProps,
+} from "react-beautiful-dnd";
 
 interface DraggableListItem {
-    id: string
+    id: string;
+}
+
+interface RenderItemOptions {
+    dragHandleProps?: DraggableProvidedDragHandleProps;
+    isDragging: boolean;
 }
 
 interface DraggableListProps<T extends DraggableListItem> {
-    items: T[],
-    renderItem: (item: T) => React.ReactNode,
-    direction: Direction,
-    onReorder: (from: number, to: number) => void,
-    droppableId?: string,
-    spacing?: StackProps["spacing"],
-    margin?: StackProps["margin"],
-    sx?: StackProps["sx"],
+    items: T[];
+    renderItem: (item: T, options: RenderItemOptions) => React.ReactNode;
+    direction: Direction;
+    onReorder: (from: number, to: number) => void;
+    droppableId?: string;
+    spacing?: StackProps["spacing"];
+    margin?: StackProps["margin"];
+    sx?: StackProps["sx"];
+    type?: string;
+
+    /**
+     * false = the whole item is the drag handle
+     * true = renderItem must attach dragHandleProps manually
+     */
+    useCustomDragHandle?: boolean;
 }
 
 function DraggableList<T extends DraggableListItem>({
-    items,
-    renderItem,
-    direction,
-    onReorder,
-    droppableId = "draggable-list",
-    spacing = 2,
-    margin,
-    sx,
-}: DraggableListProps<T>) {
-    const onDragEnd = ({source, destination}: DropResult) => {
-        if (!destination) return
+                                                        items,
+                                                        renderItem,
+                                                        direction,
+                                                        onReorder,
+                                                        droppableId = "draggable-list",
+                                                        spacing = 2,
+                                                        margin,
+                                                        sx,
+                                                        type,
+                                                        useCustomDragHandle = false,
+                                                    }: DraggableListProps<T>) {
+    const onDragEnd = ({ source, destination }: DropResult) => {
+        if (!destination) return;
 
-        if (source.index === destination.index) return
+        if (source.index === destination.index) return;
 
-        onReorder(source.index, destination.index)
-    }
+        onReorder(source.index, destination.index);
+    };
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId={droppableId} direction={direction}>
-                {(provided) => (
+            <Droppable droppableId={droppableId} direction={direction} type={type}>
+                {(droppableProvided) => (
                     <Stack
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
+                        ref={droppableProvided.innerRef}
+                        {...droppableProvided.droppableProps}
                         spacing={spacing}
                         margin={margin}
                         direction={direction === "horizontal" ? "row" : "column"}
                         sx={sx}
                     >
                         {items.map((item, index) => (
-                            <Draggable
-                                key={item.id}
-                                draggableId={item.id}
-                                index={index}
-                            >
-                                {(provided, snapshot) => (
-                                    <Box
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        sx={{
-                                            opacity: snapshot.isDragging ? 0.8 : 1,
-                                            ...provided.draggableProps.style,
-                                        }}
-                                    >
-                                        {renderItem(item)}
-                                    </Box>
-                                )}
+                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                                {(draggableProvided, snapshot) => {
+                                    const dragHandleProps = useCustomDragHandle
+                                        ? undefined
+                                        : draggableProvided.dragHandleProps;
+
+                                    return (
+                                        <Box
+                                            ref={draggableProvided.innerRef}
+                                            {...draggableProvided.draggableProps}
+                                            {...dragHandleProps}
+                                            style={draggableProvided.draggableProps.style}
+                                            sx={{
+                                                opacity: snapshot.isDragging ? 0.8 : 1,
+                                            }}
+                                        >
+                                            {renderItem(item, {
+                                                dragHandleProps: draggableProvided.dragHandleProps,
+                                                isDragging: snapshot.isDragging,
+                                            })}
+                                        </Box>
+                                    );
+                                }}
                             </Draggable>
                         ))}
 
-                        {provided.placeholder}
+                        {droppableProvided.placeholder}
                     </Stack>
                 )}
             </Droppable>
         </DragDropContext>
-    )
+    );
 }
 
-export default DraggableList
+export default DraggableList;

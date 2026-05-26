@@ -10,4 +10,4 @@ interface KanbanCard extends KanbanItem {
 
 type CreateKanbanCard = Omit<KanbanCard, "createdAt"|"finishedAt" | "id">
 
-export type {KanbanCard}
+export type {KanbanCard, CreateKanbanCard}

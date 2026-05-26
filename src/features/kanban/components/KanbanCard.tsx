@@ -1,10 +1,10 @@
 import {Card, CardContent, Checkbox, Stack, Typography} from "@mui/material";
 
-function KanbanItem() {
+function KanbanCard() {
     return (
         <Card>
             <CardContent>
-                <Stack spacing={2} direction="row" alignItems="center">
+                <Stack spacing={2} direction="row" >
                     <Checkbox/>
                     <Typography variant="h6">Some item</Typography>
                 </Stack>
@@ -13,4 +13,4 @@ function KanbanItem() {
     );
 }
 
-export default KanbanItem
+export default KanbanCard
