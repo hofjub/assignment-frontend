@@ -1,36 +1,36 @@
-import {Box, Button, Card, CardContent, Checkbox, Stack, Typography} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import KanbanList from "./KanbanList";
 import KanbanItem from "./KanbanItem";
+import {useKanbanStore} from "../stores/useKanbanStore";
+import {DraggableList} from "../../draggable";
 
 export function Kanban() {
-    return (
+    const {reorderColumn, columns} = useKanbanStore()
 
-        <Box sx={{paddingBottom: 4}}>
-            <Stack spacing={2} margin={5} direction="row">
-                <KanbanList>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <Button>Add item</Button>
-                </KanbanList>
-                <KanbanList>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <Button>Add item</Button>
-                </KanbanList>
-                <KanbanList>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <KanbanItem/>
-                    <Button>Add item</Button>
-                </KanbanList>
-            </Stack>
+    return (
+        <Box sx={{ paddingBottom: 4 }}>
+            <DraggableList
+                items={columns}
+                renderItem={(column) => (
+                    <KanbanList>
+                        <KanbanItem />
+                        <KanbanItem />
+                        <KanbanItem />
+                        <Button>Add item {column.id}</Button>
+                    </KanbanList>
+                )}
+                direction="horizontal"
+                onReorder={reorderColumn}
+                droppableId="kanban-columns"
+                margin={5}
+                sx={{
+                    overflowX: "auto",
+                    alignItems: "flex-start",
+                }}
+            />
         </Box>
     );
 }
-
-
 
 
 export default Kanban;
