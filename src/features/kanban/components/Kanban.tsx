@@ -4,6 +4,7 @@ import KanbanItem from "./KanbanItem";
 
 export function Kanban() {
     return (
+
         <Box sx={{paddingBottom: 4}}>
             <Stack spacing={2} margin={5} direction="row">
                 <KanbanList>
