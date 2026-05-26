@@ -1,4 +1,6 @@
 import {Box, Button, Card, CardContent, Checkbox, Stack, Typography} from "@mui/material";
+import KanbanList from "./KanbanList";
+import KanbanItem from "./KanbanItem";
 
 export function Kanban() {
     return (
@@ -27,27 +29,7 @@ export function Kanban() {
     );
 }
 
-function KanbanItem() {
-    return (
-        <Card>
-            <CardContent>
-                <Stack spacing={2} direction="row" alignItems="center">
-                    <Checkbox/>
-                    <Typography variant="h6">Some item</Typography>
-                </Stack>
-            </CardContent>
-        </Card>
-    );
-}
 
-function KanbanList({children}: { children: React.ReactNode }) {
-    return (
-        <Card variant="outlined" sx={{bgcolor: 'grey.200', width: 400}}>
-            <CardContent>
-                <Stack spacing={2}>{children}</Stack>
-            </CardContent>
-        </Card>
-    );
-}
+
 
 export default Kanban;
