@@ -1,9 +1,9 @@
 import {Alert, Box, Button, TextField} from "@mui/material";
 import React, {FocusEvent, FormEvent, useState} from "react";
 
-function KanbanCardInput({onCreate, onBlur}: {
+function KanbanColumnInput({onCreate, onBlur}: {
     onCreate: (title: string) => void,
-    onBlur: () => void
+    onBlur: () => void,
 }) {
     const [title, setTitle] = useState("");
 
@@ -24,7 +24,7 @@ function KanbanCardInput({onCreate, onBlur}: {
     };
 
     return (
-        <Box component="form" onBlur={handleBlur} onSubmit={handleSubmit}>
+        <Box component="form" onBlur={handleBlur} onSubmit={handleSubmit} sx={{width: 400}}>
             <Alert
                 severity="info"
                 action={
@@ -41,7 +41,7 @@ function KanbanCardInput({onCreate, onBlur}: {
                 <TextField
                     autoFocus
                     fullWidth
-                    label="Title"
+                    label="Column title"
                     onChange={(event) => setTitle(event.target.value)}
                     size="small"
                     value={title}
@@ -52,4 +52,4 @@ function KanbanCardInput({onCreate, onBlur}: {
     );
 }
 
-export default KanbanCardInput;
+export default KanbanColumnInput;

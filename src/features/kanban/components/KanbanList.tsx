@@ -1,4 +1,4 @@
-import {Box, Button, Card, CardContent} from "@mui/material";
+import {Box, Button, Card, CardContent, Stack, Typography} from "@mui/material";
 import React, {useState} from "react";
 import {KanbanColumn} from "../types/column";
 import {useKanbanStore} from "../stores/useKanbanStore";
@@ -21,14 +21,18 @@ function KanbanList({column, dragHandleProps}: {
 
             <CardContent>
 
-                <Box
-                    {...dragHandleProps}
-                    sx={{ cursor: "grab" }}
-                >
-                    <DragIndicatorIcon
-                        sx={{bgcolor: 'grey.200'}}
-                    />
-                </Box>
+                <Stack direction="row" spacing={1} alignItems="center">
+                    <Box
+                        {...dragHandleProps}
+                        sx={{ cursor: "grab" }}
+                    >
+                        <DragIndicatorIcon
+                            sx={{bgcolor: 'grey.200'}}
+                        />
+                    </Box>
+
+                    <Typography variant="h6">{column.title}</Typography>
+                </Stack>
 
                 <DraggableList
                     type={"CARD"}

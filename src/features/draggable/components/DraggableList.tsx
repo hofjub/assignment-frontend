@@ -28,6 +28,7 @@ interface DraggableListProps<T extends DraggableListItem> {
     margin?: StackProps["margin"];
     sx?: StackProps["sx"];
     type?: string;
+    footer?: React.ReactNode;
 
     /**
      * false = the whole item is the drag handle
@@ -46,6 +47,7 @@ function DraggableList<T extends DraggableListItem>({
                                                         margin,
                                                         sx,
                                                         type,
+                                                        footer,
                                                         useCustomDragHandle = false,
                                                     }: DraggableListProps<T>) {
     const onDragEnd = ({ source, destination }: DropResult) => {
@@ -96,6 +98,12 @@ function DraggableList<T extends DraggableListItem>({
                         ))}
 
                         {droppableProvided.placeholder}
+
+                        {footer && (
+                            <Box>
+                                {footer}
+                            </Box>
+                        )}
                     </Stack>
                 )}
             </Droppable>
